@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import Tabble from './pages/Tabble';
+import TabbleProvider from './context/TabbleProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <TabbleProvider>
+      <Tabble />
+    </TabbleProvider>
   );
 }
 
