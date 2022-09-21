@@ -5,6 +5,18 @@ import TabbleContext from './TabbleContext';
 
 function TabbleProvider({ children }) {
   const [apiData, setApiData] = useState([]);
+  const [nameFilter, setNameFilter] = useState('');
+  const [planetFiltered, setPlanetFiltered] = useState([]);
+
+  const nameFilterHandler = ({ target }) => {
+    const { value } = target;
+    setNameFilter(value);
+  };
+
+  useEffect(() => {
+    const filter = apiData.filter((planet) => planet.name.includes(nameFilter));
+    setPlanetFiltered(filter);
+  }, [nameFilter, apiData]);
 
   useEffect(() => {
     const planetData = async () => {
@@ -19,7 +31,9 @@ function TabbleProvider({ children }) {
   }, []);
 
   const contextType = {
-    apiData,
+    nameFilter,
+    nameFilterHandler,
+    planetFiltered,
   };
 
   return (
