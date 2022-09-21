@@ -6,6 +6,9 @@ function Tabble() {
     nameFilterHandler,
     nameFilter,
     planetFiltered,
+    handleChange,
+    filterNumeric,
+
   } = useContext(TabbleContext);
   return (
     <div>
@@ -20,6 +23,40 @@ function Tabble() {
             placeholder="Pesquisa"
           />
         </label>
+        <select onChange={ handleChange } data-testid="column-filter" name="column">
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+        <select
+          onChange={ handleChange }
+          data-testid="comparison-filter"
+          name="comparison"
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+        <label htmlFor="numberFilter">
+          <input
+            onChange={ handleChange }
+            defaultValue={ 0 }
+            name="value"
+            data-testid="value-filter"
+            type="number"
+          />
+        </label>
+        <button
+          onClick={ filterNumeric }
+          data-testid="button-filter"
+          type="button"
+        >
+          Filtrar
+
+        </button>
+
       </header>
       <table>
         <thead>

@@ -7,6 +7,35 @@ function TabbleProvider({ children }) {
   const [apiData, setApiData] = useState([]);
   const [nameFilter, setNameFilter] = useState('');
   const [planetFiltered, setPlanetFiltered] = useState([]);
+  const [filterByNumericValues, setFilterByNumericValues] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
+
+  const checkComparison = (col, comp, val) => {
+    switch (comp) {
+    case 'maior que': return col > val;
+    case 'menor que': return col < val;
+    case 'igual a': return col === val;
+    default:
+    }
+  };
+
+  const filterNumeric = () => {
+    const { column, comparison, value } = filterByNumericValues;
+    const filter = planetFiltered
+      .filter((planet) => checkComparison(+planet[column], comparison, +value));
+    setPlanetFiltered(filter);
+  };
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setFilterByNumericValues({
+      ...filterByNumericValues,
+      [name]: value,
+    });
+  };
 
   const nameFilterHandler = ({ target }) => {
     const { value } = target;
@@ -32,8 +61,11 @@ function TabbleProvider({ children }) {
 
   const contextType = {
     nameFilter,
+    ...filterByNumericValues,
     nameFilterHandler,
     planetFiltered,
+    handleChange,
+    filterNumeric,
   };
 
   return (
