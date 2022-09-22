@@ -12,6 +12,7 @@ function TabbleProvider({ children }) {
     comparison: 'maior que',
     value: 0,
   });
+  const [selectedFilter, setSelectFilter] = useState([]);
 
   const checkComparison = (col, comp, val) => {
     switch (comp) {
@@ -27,6 +28,14 @@ function TabbleProvider({ children }) {
     const filter = planetFiltered
       .filter((planet) => checkComparison(+planet[column], comparison, +value));
     setPlanetFiltered(filter);
+    setSelectFilter(column);
+    setFilterByNumericValues({
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+    });
+
+    console.log(selectedFilter);
   };
 
   const handleChange = ({ target }) => {
@@ -60,12 +69,12 @@ function TabbleProvider({ children }) {
   }, []);
 
   const contextType = {
-    nameFilter,
     ...filterByNumericValues,
     nameFilterHandler,
     planetFiltered,
     handleChange,
     filterNumeric,
+    selectedFilter,
   };
 
   return (

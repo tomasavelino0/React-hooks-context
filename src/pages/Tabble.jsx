@@ -4,12 +4,19 @@ import TabbleContext from '../context/TabbleContext';
 function Tabble() {
   const {
     nameFilterHandler,
-    nameFilter,
     planetFiltered,
     handleChange,
     filterNumeric,
+    selectedFilter,
 
   } = useContext(TabbleContext);
+
+  const columns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
   return (
     <div>
       <header>
@@ -17,18 +24,17 @@ function Tabble() {
           <input
             data-testid="name-filter"
             onChange={ nameFilterHandler }
-            value={ nameFilter }
             name="nameFilter"
             type="text"
             placeholder="Pesquisa"
           />
         </label>
         <select onChange={ handleChange } data-testid="column-filter" name="column">
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columns.filter((column) => !selectedFilter.includes(column)).map((filter) => (
+            <option key={ filter } value={ filter }>
+              {filter}
+            </option>
+          ))}
         </select>
         <select
           onChange={ handleChange }
@@ -79,7 +85,7 @@ function Tabble() {
         <tbody>
           { planetFiltered.map((planet, i) => (
             <tr key={ i }>
-              <td>{planet.name}</td>
+              <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>
